@@ -10,11 +10,18 @@ var logger = require('morgan');
 var hbs = require('hbs');
 
 
+// Connect to the database
+require('./app_api/models/db');
+
+
 // Load the website routes
 
 var indexRouter = require('./app_server/routes/index');
 var usersRouter = require('./app_server/routes/users');
 var travelRouter = require('./app_server/routes/travel');
+
+// Load the API routes
+var apiRouter = require('./app_api/routes/index');
 
 
 // Create the Express application
@@ -68,6 +75,9 @@ app.use('/users', usersRouter);
 
 // Travel page
 app.use('/travel', travelRouter);
+
+// API routes
+app.use('/api', apiRouter);
 
 
 // ------------------------------------
