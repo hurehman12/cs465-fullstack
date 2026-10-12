@@ -62,6 +62,14 @@ app.use(cookieParser());
 // This includes images, CSS, and static HTML files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Enable CORS
+app.use('/api', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  next();
+});
+
 
 // ------------------------------------
 // Routes
@@ -111,3 +119,4 @@ app.use(function(err, req, res, next) {
 // Export the Express application
 
 module.exports = app;
+
