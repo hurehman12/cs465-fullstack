@@ -3,8 +3,6 @@ const Trip = require('../models/travlr'); // Register model
 const Model = mongoose.model('trips');
 
 // GET: /trips - lists all the trips
-// Regardless of outcome, response must include HTML status code
-// and JSON message to the requesting client
 const tripsList = async(req, res) => {
     const q = await Model
         .find({})
@@ -65,16 +63,11 @@ const tripsAddTrip = async(req, res) => {
             .status(201)
             .json(q);
     }
-
-    // console.log(q);
 };
 
-// PUT: /trips/:tripCode - Adds a new Trip
-// Regardless of outcome, response must include HTML status code
-// and JSON message to the requesting client
+// PUT: /trips/:tripCode - Updates an existing Trip
 const tripsUpdateTrip = async(req, res) => {
 
-    // Uncomment for debugging
     console.log(req.params);
     console.log(req.body);
 
@@ -96,24 +89,38 @@ const tripsUpdateTrip = async(req, res) => {
 
     if(!q)
     {
-        // Database returned no data
         return res
             .status(400)
             .json(err);
-    } else { // Return resulting updated trip
+    } else {
         return res
             .status(201)
             .json(q);
     }
+};
 
-    // Uncomment the following line to show results of operation
-    // on the console
-    // console.log(q);
+// DELETE: /trips/:tripCode - Deletes an existing Trip
+const tripsDeleteTrip = async(req, res) => {
+    const q = await Model
+        .findOneAndDelete({ 'code': req.params.tripCode })
+        .exec();
+
+    if(!q)
+    {
+        return res
+            .status(404)
+            .json({ message: 'Trip not found' });
+    } else {
+        return res
+            .status(200)
+            .json(q);
+    }
 };
 
 module.exports = {
     tripsList,
     tripsFindByCode,
     tripsAddTrip,
-    tripsUpdateTrip
+    tripsUpdateTrip,
+    tripsDeleteTrip
 };
