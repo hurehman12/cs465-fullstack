@@ -5,6 +5,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('dotenv').config();
+var passport = require('passport');
+require('./app_api/config/passport');
 
 // Load Handlebars
 var hbs = require('hbs');
@@ -61,11 +64,12 @@ app.use(cookieParser());
 // Allow Express to serve files from the public folder
 // This includes images, CSS, and static HTML files
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 // Enable CORS
 app.use('/api', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   next();
 });
@@ -92,6 +96,16 @@ app.use('/api', apiRouter);
 // Error Handling
 // ------------------------------------
 
+
+// Catch unauthorized error and create 401
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    return res
+      .status(401)
+      .json({"message": err.name + ": " + err.message});
+  }
+  next(err);
+});
 // Catch a 404 error if a page cannot be found
 app.use(function(req, res, next) {
   next(createError(404));
@@ -119,4 +133,6 @@ app.use(function(err, req, res, next) {
 // Export the Express application
 
 module.exports = app;
+
+
 
