@@ -39,6 +39,7 @@
     </button>
 
     <button
+      *ngIf="canDeleteTrip()"
       (click)="deleteTrip(trip)"
       class="btn btn-danger">
       Delete Trip

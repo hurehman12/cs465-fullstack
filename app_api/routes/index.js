@@ -39,23 +39,36 @@ function authenticateJWT(req, res, next) {
     }
 }
 
+function authorizeRoles(...allowedRoles) {
+    return (req, res, next) => {
+        if (!req.auth) {
+            return res.sendStatus(401);
+        }
+
+        if (!allowedRoles.includes(req.auth.role)) {
+            return res.sendStatus(403);
+        }
+
+        next();
+    };
+}
 // Collection routes
 router
     .route('/trips')
     .get(tripsController.tripsList)
-    .post(authenticateJWT, tripsController.tripsAddTrip);
+    .post(authenticateJWT, authorizeRoles('admin', 'editor'), tripsController.tripsAddTrip);
 
 // Individual trip routes
 router
     .route('/trips/:tripCode')
     .get(tripsController.tripsFindByCode)
-    .put(authenticateJWT, tripsController.tripsUpdateTrip)
-    .delete(authenticateJWT, tripsController.tripsDeleteTrip);
+    .put(authenticateJWT, authorizeRoles('admin', 'editor'), tripsController.tripsUpdateTrip)
+    .delete(authenticateJWT, authorizeRoles('admin'), tripsController.tripsDeleteTrip);
 
 // Define route for register endpoint
 router
     .route('/register')
-    .post(authController.register);
+    .post(authenticateJWT, authorizeRoles('admin'), authController.register);
 
 // Define route for login endpoint
 router

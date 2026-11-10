@@ -51,6 +51,9 @@ export class TripCardComponent
     return this.authenticationService.isLoggedIn();
   }
 
+  public canDeleteTrip(): boolean {
+    return this.authenticationService.hasRole('admin');
+  }
   public editTrip(trip: Trip): void {
 
     localStorage.removeItem('tripCode');

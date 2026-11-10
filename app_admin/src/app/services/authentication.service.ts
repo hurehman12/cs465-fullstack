@@ -66,6 +66,20 @@ export class AuthenticationService {
     return this.loggedInState() && this.hasValidToken();
   }
 
+  public hasRole(...allowedRoles: string[]): boolean {
+    if (!this.isLoggedIn()) {
+      return false;
+    }
+
+    try {
+      const token = this.getToken();
+      const payload = JSON.parse(atob(token.split('.')[1]));
+
+      return allowedRoles.includes(payload.role);
+    } catch {
+      return false;
+    }
+  }
   public getCurrentUser(): User {
     const token = this.getToken();
 
