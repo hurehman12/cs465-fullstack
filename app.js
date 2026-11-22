@@ -63,6 +63,7 @@ app.use(cookieParser());
 
 // Allow Express to serve files from the public folder
 // This includes images, CSS, and static HTML files
+app.get('/travel.html', (req, res) => res.redirect(302, '/travel'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 

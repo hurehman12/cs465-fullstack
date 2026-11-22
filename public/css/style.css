@@ -543,3 +543,79 @@ hr {
 #connect a.googleplus:hover {
 	background-position: 0 -197px;
 }
+
+
+/* CS499 Recommendation Form */
+
+/* Keep the form consistent with the original resort design */
+#contents .box .body form[action="/travel"] {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    background: #f4f8f7;
+    border: 1px solid #d0ddd9;
+    padding: 20px;
+    margin: 15px 0 30px;
+    box-sizing: border-box;
+}
+
+/* Space the preference fields */
+#contents .box .body form[action="/travel"] p {
+    margin: 0;
+    min-width: 0;
+}
+
+/* Style labels */
+#contents .box .body form[action="/travel"] label {
+    display: block;
+    color: #316e66;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* Style customer inputs */
+#contents .box .body form[action="/travel"] input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    font: inherit;
+}
+
+/* Position form actions below the fields */
+#contents .box .body form[action="/travel"] > p:last-child {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Recommendation button */
+#contents .box .body form[action="/travel"] button {
+    background: #2c9688;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#contents .box .body form[action="/travel"] button:hover {
+    background: #23766b;
+}
+
+/* Clear preferences link */
+#contents .box .body form[action="/travel"] a {
+    color: #316e66;
+    text-decoration: underline;
+}
+
+/* Stack fields on smaller screens */
+@media (max-width: 650px) {
+    #contents .box .body form[action="/travel"] {
+        grid-template-columns: 1fr;
+    }
+}

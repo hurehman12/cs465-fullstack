@@ -1,74 +1,155 @@
 <!DOCTYPE html>
-<!-- Website template by freewebsitetemplates.com -->
-
 <html>
 
 <head>
-	<meta charset="UTF-8">
-
-	<title>
-		Dive Sites - Bhaccasyoniztas Beach Resort Website Template
-	</title>
-
-	<link rel="stylesheet" href="css/style.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>Travlr Getaways - Travel</title>
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
 
 <body>
+    <div id="background">
+        <div id="page">
 
-	<div id="background">
+            {{> header }}
 
-		<div id="page">
+            <div id="contents">
+                <div class="box">
+                    <div>
+                        <div class="body">
 
-			{{> header }}
+                            <h1>Travel</h1>
 
-			<div id="contents">
+                            <!-- Customer trip preferences -->
+                            <h2>Find Your Perfect Trip</h2>
 
-				<div class="box">
+                            <form method="GET" action="/travel">
 
-					<div>
+                                <p>
+                                    <label for="destination">
+                                        Preferred Destination or Resort:
+                                    </label>
 
-						<div class="body">
+                                    <input
+                                        type="text"
+                                        id="destination"
+                                        name="destination"
+                                        value="{{preferences.destination}}"
+                                        placeholder="Example: Blue Lagoon">
+                                </p>
 
-							<h1>Travel</h1>
+                                <p>
+                                    <label for="budget">
+                                        Maximum Budget ($):
+                                    </label>
 
-							<ul id="sites">
+                                    <input
+                                        type="number"
+                                        id="budget"
+                                        name="budget"
+                                        min="0.01"
+                                        step="0.01"
+                                        value="{{preferences.budget}}"
+                                        placeholder="Example: 900">
+                                </p>
 
-								{{#each trips}}
+                                <p>
+                                    <label for="days">
+                                        Trip Duration (Days):
+                                    </label>
 
-								<li>
+                                    <input
+                                        type="number"
+                                        id="days"
+                                        name="days"
+                                        min="1"
+                                        max="365"
+                                        step="1"
+                                        value="{{preferences.days}}"
+                                        placeholder="Example: 5">
+                                </p>
 
-									<a href="/api/trips/{{this.code}}">
-										<img src="images/{{image}}" alt="Img">
-									</a>
+                                <p>
+                                    <button type="submit">
+                                        Find Recommended Trips
+                                    </button>
 
-									<h2>
-										<a href="/travel">{{name}}</a>
-									</h2>
+                                    <a href="/travel">
+                                        Clear Preferences
+                                    </a>
+                                </p>
 
-									<p>
-										{{description}}
-									</p>
+                            </form>
 
-								</li>
+                            <!-- Display API messages -->
+                            {{#if message}}
+                                <p role="status">{{message}}</p>
+                            {{/if}}
 
-								{{/each}}
+                            <!-- Recommendation results heading -->
+                            {{#if hasPreferences}}
+                                <h2>Recommended Trips</h2>
+                                <p>
+                                    Ranked by how closely each trip
+                                    matches your preferences.
+                                </p>
+                            {{else}}
+                                <h2>Available Travel Packages</h2>
+                            {{/if}}
 
-							</ul>
+                            <!-- Display travel packages -->
+                            <ul id="sites">
 
-						</div>
+                                {{#each trips}}
+                                <li>
 
-					</div>
+                                    <a href="/api/trips/{{code}}">
+                                        <img src="/images/{{image}}"
+                                             alt="{{name}}">
+                                    </a>
 
-				</div>
+                                    <h2>
+                                        <a href="/travel">{{name}}</a>
+                                    </h2>
 
-			</div>
+                                    <p>{{description}}</p>
 
-		</div>
+                                    <p>
+                                        <strong>Resort:</strong>
+                                        {{resort}}
+                                    </p>
 
-		{{> footer }}
+                                    <p>
+                                        <strong>Price Per Person:</strong>
+                                        ${{perPerson}}
+                                    </p>
 
-	</div>
+                                    <p>
+                                        <strong>Duration:</strong>
+                                        {{length}}
+                                    </p>
 
+                                    {{#if ../hasPreferences}}
+                                    <p>
+                                        <strong>Match Score:</strong>
+                                        {{recommendationScore}} / 100
+                                    </p>
+                                    {{/if}}
+
+                                </li>
+                                {{/each}}
+
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        {{> footer }}
+
+    </div>
 </body>
-
 </html>
