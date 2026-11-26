@@ -28,6 +28,9 @@ export class NavbarComponent {
     return this.authenticationService.isLoggedIn();
   }
 
+  public isAdmin(): boolean {
+    return this.authenticationService.hasRole('admin');
+  }
   public onLogout(): void {
     this.authenticationService.logout();
     this.router.navigate(['']);

@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken'); // Enable JSON Web Tokens
 // This is where we import the controllers we will route
 const tripsController = require('../controllers/trips');
 const recommendationsController = require('../controllers/recommendations');
+const reportsController = require('../controllers/reports');
 const authController = require('../controllers/authentication');
 
 // Method to authenticate our JWT
@@ -61,6 +62,9 @@ router
 
 // Public trip recommendations
 router.get('/trips/recommendations', recommendationsController.tripsRecommend);
+
+// Administrator-only database reports
+router.get('/reports/resorts', authenticateJWT, authorizeRoles('admin'), reportsController.resortSummary);
 
 // Individual trip routes
 router

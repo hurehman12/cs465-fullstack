@@ -16,6 +16,13 @@
       </a>
 
       <a
+        *ngIf="isAdmin()"
+        class="nav-link"
+        routerLink="/resort-analytics">
+        Resort Analytics
+      </a>
+
+      <a
         *ngIf="!isLoggedIn()"
         class="nav-link"
         routerLink="/login">

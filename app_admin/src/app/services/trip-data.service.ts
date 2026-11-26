@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Trip } from '../models/trip';
 import { User } from '../models/user';
 import { AuthResponse } from '../models/auth-response';
+import { ResortReport } from '../models/resort-report';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,11 @@ export class TripDataService {
     );
   }
 
+  getResortReport(): Observable<ResortReport[]> {
+    return this.http.get<ResortReport[]>(
+      this.baseUrl + '/reports/resorts'
+    );
+  }
   login(user: User, passwd: string): Observable<AuthResponse> {
     return this.handleAuthAPICall('login', user, passwd);
   }

@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { ResortAnalyticsComponent } from './resort-analytics/resort-analytics.component';
+import { adminGuard } from './guards/admin.guard';
 
 import {
   AddTripComponent
@@ -17,6 +19,11 @@ import {
 } from './login/login.component';
 
 export const routes: Routes = [
+  {
+    path: 'resort-analytics',
+    component: ResortAnalyticsComponent,
+    canActivate: [adminGuard]
+  },
   {
     path: 'add-trip',
     component: AddTripComponent

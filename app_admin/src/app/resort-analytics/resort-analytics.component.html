@@ -1,0 +1,96 @@
+<div class="mt-4">
+
+  <h2>Resort Analytics</h2>
+
+  <p>
+    MongoDB aggregation reporting for Travlr Getaways.
+  </p>
+
+  <div *ngIf="loading" class="alert alert-info">
+    Loading resort analytics...
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!loading && !errorMessage">
+
+    <div class="row mb-4">
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5>Total Travel Packages</h5>
+            <h3>{{ totalTrips }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5>Resort Groups</h5>
+            <h3>{{ reports.length }}</h3>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="reports.length === 0" class="alert alert-info">
+      No resort records are available.
+    </div>
+
+    <div *ngIf="reports.length > 0" class="table-responsive">
+
+      <table class="table table-striped table-bordered">
+
+        <thead>
+          <tr>
+            <th>Resort</th>
+            <th>Trips</th>
+            <th>Average Price</th>
+            <th>Minimum Price</th>
+            <th>Maximum Price</th>
+            <th>Invalid Prices</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let report of reports">
+
+            <td>{{ report.resort }}</td>
+
+            <td>{{ report.tripCount }}</td>
+
+            <td>
+              {{ report.averagePrice !== null
+                ? (report.averagePrice | currency:'USD')
+                : 'N/A' }}
+            </td>
+
+            <td>
+              {{ report.minPrice !== null
+                ? (report.minPrice | currency:'USD')
+                : 'N/A' }}
+            </td>
+
+            <td>
+              {{ report.maxPrice !== null
+                ? (report.maxPrice | currency:'USD')
+                : 'N/A' }}
+            </td>
+
+            <td>{{ report.excludedPriceCount }}</td>
+
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

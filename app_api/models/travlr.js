@@ -38,6 +38,8 @@ const tripSchema = new mongoose.Schema({
   }
 });
 
+tripSchema.index({ resort: 1 });
+
 const Trip = mongoose.model('trips', tripSchema);
 
 module.exports = Trip;
